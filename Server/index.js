@@ -1,10 +1,12 @@
 // const { sequelize } = require("./src/models");
 const express = require("express");
 const app = express();
+const http = require("http");
+const server = http.createServer(app);
 const path = require("path");
 const port = 8031;
 const cors = require("cors");
-const io = require("socket.io")(port, {
+const io = require("socket.io")(server, {
 	cors: {
 		origin: ["http://localhost:8030"]
 	}
@@ -28,8 +30,8 @@ app.get("/", (req, res) => {
 
 app.use("/chat", Chat)
 
-app.listen({ port: port }, async () => {
-  console.log(`Client up on http://localhost:${port}`);
+server.listen({ port: port }, async () => {
+  console.log(`Server up on http://localhost:${port}`);
   // await sequelize.authenticate();
   // console.log("Database connected.");
 });
